@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta content="width=device-width, initial-scale=1" name="viewport" />
+		<title>Rock-Paper-Scissors</title>
+		<audio src="win-sound.mp3" id="win-sound"></audio>
+		<audio src="lose-sound.mp3" id="lose-sound"></audio>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+				font-family: "Product Sans", sans-serif;
+			}
+			body,html{
+				height: 100%;
+			}
+			body{
+				background: #131313;
+			}
+			main{
+				display: flex;
+				height: 50vh;
+				flex-direction: column;
+				align-items: center;
+			}
+			#game-name{
+				width: 100%;
+				background: white;
+				text-align: center;
+				padding: 10px 0px;
+				box-shadow: 0px 0px 10px 5px grey;
+			}
+			#scoreboard{
+				width: 30%;
+				background: black;
+				margin: auto;
+				display: flex;
+				justify-content: space-around;
+				margin-top: 30px;
+				flex-direction: column;
+				border-radius: 10px;
+				box-shadow: 0px 0px 25px 6px grey;
+			}
+			#user-score{
+				display: flex;
+				justify-content: center;
+				width: 50%;
+			}
+			#scoreboard-main{
+				display: flex;
+				justify-content: space-around;
+				padding: 15px 0px;
+				color: white;
+			}
+			#scoreboard-title{
+				text-align: center;
+				border-bottom: 2px solid gold;
+				background: black;
+				color: white;
+				height: 100%;
+				padding: 12px 0px;
+				border-top-left-radius: 10px;
+				border-top-right-radius: 10px;
+			}
+			#computer-score{
+				display: flex;
+				justify-content: center;
+				width: 50%;
+			}
+			#board{
+				display: flex;
+				justify-content: space-around;
+			}
+			#board img{
+				height: 230px;
+			}
+			#user-board{
+				/*background: gold;*/
+			}
+			#computer-board{
+				/*background: lime;*/
+			}
+			#user-move{
+				transition: 0.3s ease;
+			}
+			#controls{
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				width: 100%;
+				/*background: blue;*/
+				align-items: center;
+			}
+			#controls #btn-div{
+				display: flex;
+				width: 60%;
+				justify-content: space-around;
+				/*background: indigo;*/
+				margin: 20px 0px;
+			}
+			#controls #btn-div button{
+				width: 25%;
+				padding: 10px 0px;
+				font-size: 1.1rem;
+				cursor: pointer;
+				background: black;
+				border: 2px solid white;
+				color: white;
+				transition: 0.4s ease;
+				border-radius: 40px;
+			}
+			#controls #btn-div button:hover{
+				background: darkred;
+				color: white;
+				font-size: 1.5rem;
+			}
+			#result{
+				background: transparent;
+				width: 60%;
+				text-align: center;
+				padding: 40px 0px;
+				margin-top: 20px;
+			}
+			#user-win-text{
+				color: lime;
+				text-shadow: 0.5px 1px black;
+			}
+			#user-lose-text{
+				color: #FD3737;
+				text-shadow: 0.5px 1px black;
+			}
+			#continue-btn{
+				padding: 15px 0px;
+				width: 30%;
+				margin-top: 30px;
+				border-radius: 40px;
+				background: linear-gradient(to right, #FF0000, #FFC200);
+				border: none;
+				outline: none;
+				color: white;
+				font-size: 1.2rem;
+				cursor: pointer;
+				box-shadow: 0px 0px 10px 4px black;
+				transition: 0.4s ease;
+			}
+			#continue-btn:active{
+				box-shadow: none;
+			}
+
+
+			@media only screen and (max-width: 600px) {
+				#scoreboard{
+					width: 90%;
+				}
+				#board img{
+					height: 150px;				
+				}
+				#controls #btn-div{
+					width: 90%;
+				}
+				#controls #btn-div button{
+					padding: 5px 0px;
+					width: 30%;
+					font-size: 1rem;
+				}
+				#controls #btn-div button:hover{
+					font-size: 1.1rem;
+				}
+				#continue-btn{
+					width: 50%;
+				}
+				#user-win-text, #user-lose-text {
+					margin: auto;
+					font-size: 1.6rem;
+					width: 100%;				
+				}
+				#result{
+					width: 90%;
+					margin: auto;
+				}
+				#info{
+					font-size: 1.2rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<div id="scoreboard">
+				<div id="scoreboard-title">
+					<h3>Rock Paper Scissors</h3>
+				</div>
+				<div id="scoreboard-main">
+					<div id="user-score">
+						<img src="user-icon.png" style="height: 40px;margin-right: 15px;" />
+						<h1 id="user-score-main">0</h1>
+					</div>
+					<div id="computer-score">
+						<img src="computer-icon.png" style="height: 40px;margin-right: 15px;"/>
+						<h1 id="computer-score-main">0</h1>
+					</div>
+				</div>
+			</div>
+
+			<div id="result" style="display: none;">
+				<h1 id="user-win-text">Congratulations !&nbsp;&nbsp;&nbsp;You Won &nbsp;&nbsp;&nbsp;:)</h1>
+				<h1 id="user-lose-text">Better Luck Next Time !&nbsp;&nbsp;&nbsp;You Lost &nbsp;&nbsp;&nbsp;:(</h1>
+				<button id="continue-btn" onclick="reset(); return false;">Play Again</button>
+			</div>
+			<div id="board">
+				<div id="user-board">
+					<img src="user-rock.png" id="user-move"/>
+				</div>
+				<div id="computer-board">
+					<img src="rock.png" id="computer-move" />
+				</div>
+			</div>
+			<div id="controls">
+				<div id="btn-div">
+					<button id="user-rock" onclick="moveUser('rock'); return false;">Rock</button>
+					<button id="user-paper" onclick="moveUser('paper'); return false;">Paper</button>
+					<button id="user-scissors" onclick="moveUser('scissors'); return false;">Scissors</button>
+				</div>
+				<h2 style="color: white;padding: 15px 0px;" id="info">Click a Move ( <span style="color: lime;font-size: 1.7rem;">5</span> Point Game)</h2>
+
+			
+			</div>
+				<p id="credits" style="margin-top: 30px;color: #00FFA8;font-size: 0.8rem;">&copy;Game Developed By The JavaBoy</p>
+		</main>
+
+
+	</body>
+	<script src="app.js"></script>
+</html>
